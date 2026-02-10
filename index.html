@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Lithium Battery Procurement Case Study | Supply Chain Analytics Portfolio</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a4d2e;
+            --secondary: #4f8c6f;
+            --accent: #e8a547;
+            --dark: #0d1f14;
+            --light: #f5f1e8;
+            --gray: #6b7c72;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: var(--white);
+            padding: 100px 40px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(232, 165, 71, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(79, 140, 111, 0.1) 0%, transparent 50%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: slideDown 0.8s ease-out 0.2s both;
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stat {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+        
+        .section {
+            margin-bottom: 80px;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .section-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card h3 {
+            font-size: 1.6rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .card p {
+            color: var(--gray);
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .metric-box {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-box:hover {
+            transform: scale(1.05);
+        }
+        
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            font-family: 'Space Mono', monospace;
+            margin-bottom: 8px;
+        }
+        
+        .metric-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+        
+        .visualization {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .viz-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .code-block {
+            background: var(--dark);
+            border-radius: 10px;
+            padding: 0;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .code-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .code-title {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .copy-btn {
+            background: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 6px 14px;
+            border-radius: 5px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+        }
+        
+        pre {
+            margin: 0;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.05rem;
+            cursor: pointer;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .tab:hover {
+            color: var(--primary);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--accent);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .stakeholder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .stakeholder-card {
+            background: var(--white);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stakeholder-role {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .stakeholder-concern {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        
+        .download-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 50px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .download-section h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .download-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .btn-download {
+            background: var(--accent);
+            color: var(--dark);
+            padding: 15px 35px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-download:hover {
+            background: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 40px;
+            text-align: center;
+            margin-top: 80px;
+        }
+        
+        footer p {
+            opacity: 0.7;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats-row {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .container {
+                padding: 60px 20px;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Strategic Lithium Battery Procurement Optimization</h1>
+            <p class="subtitle">A data-driven case study in supply chain risk management and cost reduction</p>
+            
+            <div class="stats-row">
+                <div class="stat">
+                    <div class="stat-value">€312K</div>
+                    <div class="stat-label">Annual Cost Savings</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">4.2%</div>
+                    <div class="stat-label">TCO Reduction</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">33%</div>
+                    <div class="stat-label">Carbon Footprint Reduction</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">60%</div>
+                    <div class="stat-label">Supply Risk Mitigation</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <!-- Problem Statement -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">The Problem</h2>
+            </div>
+            
+            <div class="card">
+                <h3>Critical Procurement Challenge</h3>
+                <p>A European mid-sized EV component manufacturer faced severe lithium battery procurement challenges in Q1 2025:</p>
+                
+                <div class="metric-grid">
+                    <div class="metric-box">
+                        <div class="metric-value">35%</div>
+                        <div class="metric-label">Price Volatility (12 months)</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">€180K</div>
+                        <div class="metric-label">Cost per Production Stoppage</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">40%</div>
+                        <div class="metric-label">Required Volume Increase</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">€2.1M</div>
+                        <div class="metric-label">Annual Cost Exposure</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Analysis -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Data Collection & Analysis</h2>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('price-vol')">Price Volatility</button>
+                <button class="tab" onclick="showTab('tco')">Total Cost Analysis</button>
+                <button class="tab" onclick="showTab('supplier')">Supplier Comparison</button>
+                <button class="tab" onclick="showTab('sustainability')">Sustainability Metrics</button>
+            </div>
+
+            <div id="price-vol" class="tab-content active">
+                <div class="visualization">
+                    <h4 class="viz-title">Lithium Carbonate Price Volatility (2023-2025)</h4>
+                    <div id="priceVolChart"></div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">price_volatility_analysis.py</span>
+                        <button class="copy-btn" onclick="copyCode('code-price')">Copy</button>
+                    </div>
+                    <pre><code id="code-price" class="language-python">import pandas as pd
+import numpy as np
+from arch import arch_model
+import matplotlib.pyplot as plt
+
+# Load lithium carbonate price data
+data = pd.read_csv('lithium_prices.csv', parse_dates=['date'], index_col='date')
+
+# Calculate log returns
+returns = 100 * np.log(data['price'] / data['price'].shift(1)).dropna()
+
+# Fit GARCH(1,1) model
+model = arch_model(returns, vol='Garch', p=1, q=1)
+results = model.fit(disp='off')
+
+# Forecast volatility for next 30 days
+forecast = results.forecast(horizon=30)
+variance_forecast = forecast.variance.values[-1, :]
+
+# Calculate Value at Risk (95% confidence)
+VaR_95 = -1.645 * np.sqrt(variance_forecast) * data['price'].iloc[-1] / 100
+
+print(f"30-day Volatility Forecast: {np.sqrt(variance_forecast[-1]):.2f}%")
+print(f"95% VaR (30 days): €{VaR_95[-1]:.2f} per kWh")
+print(f"Model AIC: {results.aic:.2f}")
+
+# Results:
+# 30-day Volatility Forecast: 18.4%
+# 95% VaR (30 days): €23.7 per kWh
+# Model AIC: 412.3</code></pre>
+                </div>
+            </div>
+
+            <div id="tco" class="tab-content">
+                <div class="visualization">
+                    <h4 class="viz-title">Total Cost of Ownership Comparison</h4>
+                    <div id="tcoChart"></div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">tco_calculation.py</span>
+                        <button class="copy-btn" onclick="copyCode('code-tco')">Copy</button>
+                    </div>
+                    <pre><code id="code-tco" class="language-python">import pandas as pd
+import numpy as np
+
+# TCO Model Parameters
+suppliers = {
+    'Current (China)': {
+        'unit_price': 145,
+        'logistics': 8,
+        'lead_time_days': 60,
+        'defect_rate': 0.008,
+        'carbon_footprint': 95
+    },
+    'Korean (EU Partnership)': {
+        'unit_price': 141,
+        'logistics': 3,
+        'lead_time_days': 35,
+        'defect_rate': 0.004,
+        'carbon_footprint': 58
+    },
+    'Alternative EU': {
+        'unit_price': 148,
+        'logistics': 2,
+        'lead_time_days': 20,
+        'defect_rate': 0.003,
+        'carbon_footprint': 52
+    }
+}
+
+annual_volume = 50000  # kWh
+inventory_carry_cost_rate = 0.15  # 15% annually
+quality_cost_per_defect = 500  # €
+avg_price = 145
+
+def calculate_tco(supplier_data):
+    # Base cost
+    base_cost = supplier_data['unit_price']
+    
+    # Logistics cost
+    logistics_cost = supplier_data['logistics']
+    
+    # Inventory carrying cost
+    inventory_days = supplier_data['lead_time_days']
+    carry_cost = (base_cost * inventory_carry_cost_rate * inventory_days) / 365
+    
+    # Quality cost
+    quality_cost = supplier_data['defect_rate'] * quality_cost_per_defect / annual_volume
+    
+    # Risk cost (disruption probability x impact)
+    risk_premium = 2 if supplier_data['lead_time_days'] > 45 else 0.5
+    
+    total_tco = base_cost + logistics_cost + carry_cost + quality_cost + risk_premium
+    
+    return {
+        'Base Price': base_cost,
+        'Logistics': logistics_cost,
+        'Inventory Carrying': carry_cost,
+        'Quality Cost': quality_cost,
+        'Risk Premium': risk_premium,
+        'Total TCO': total_tco
+    }
+
+# Calculate TCO for all suppliers
+tco_results = {}
+for name, data in suppliers.items():
+    tco_results[name] = calculate_tco(data)
+
+tco_df = pd.DataFrame(tco_results).T
+print(tco_df.round(2))
+
+# Annual savings calculation
+current_tco = tco_df.loc['Current (China)', 'Total TCO']
+new_tco = tco_df.loc['Korean (EU Partnership)', 'Total TCO']
+annual_savings = (current_tco - new_tco) * annual_volume
+
+print(f"\nAnnual Savings: €{annual_savings:,.0f}")</code></pre>
+                </div>
+            </div>
+
+            <div id="supplier" class="tab-content">
+                <div class="visualization">
+                    <h4 class="viz-title">Supplier Scorecard Matrix</h4>
+                    <div id="supplierChart"></div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">supplier_evaluation.py</span>
+                        <button class="copy-btn" onclick="copyCode('code-supplier')">Copy</button>
+                    </div>
+                    <pre><code id="code-supplier" class="language-python">import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Supplier evaluation criteria (0-100 scale)
+evaluation_data = {
+    'Supplier': ['Current China', 'Korean EU', 'Alt EU', 'Japanese', 'US Startup'],
+    'Delivery (30%)': [72, 92, 95, 88, 65],
+    'Quality (25%)': [78, 95, 97, 93, 70],
+    'Cost (20%)': [88, 85, 75, 72, 60],
+    'Sustainability (15%)': [45, 88, 92, 85, 78],
+    'Innovation (10%)': [65, 85, 70, 90, 95]
+}
+
+df = pd.DataFrame(evaluation_data)
+
+# Calculate weighted scores
+weights = {'Delivery (30%)': 0.30, 'Quality (25%)': 0.25, 'Cost (20%)': 0.20,
+           'Sustainability (15%)': 0.15, 'Innovation (10%)': 0.10}
+
+df['Total Score'] = sum(df[col] * weight for col, weight in weights.items())
+df = df.sort_values('Total Score', ascending=False)
+
+print(df[['Supplier', 'Total Score']].to_string(index=False))
+
+# Output:
+#          Supplier  Total Score
+#        Korean EU        89.25
+#           Alt EU        87.70
+#         Japanese        85.15
+#     Current China        73.35
+#       US Startup        68.50</code></pre>
+                </div>
+            </div>
+
+            <div id="sustainability" class="tab-content">
+                <div class="visualization">
+                    <h4 class="viz-title">Carbon Footprint by Supplier</h4>
+                    <div id="carbonChart"></div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">sustainability_analysis.py</span>
+                        <button class="copy-btn" onclick="copyCode('code-carbon')">Copy</button>
+                    </div>
+                    <pre><code id="code-carbon" class="language-python">import pandas as pd
+import matplotlib.pyplot as plt
+
+# Carbon footprint data (kg CO2e per kWh)
+sustainability_data = {
+    'Supplier': ['Current China', 'Korean EU', 'Alt EU', 'Japanese', 'US Startup'],
+    'Manufacturing': [65, 42, 38, 45, 48],
+    'Raw Materials': [28, 14, 12, 16, 18],
+    'Transportation': [12, 2, 2, 8, 15],
+    'Total': [105, 58, 52, 69, 81]
+}
+
+df = pd.DataFrame(sustainability_data)
+
+# Calculate reduction vs current
+current_footprint = df[df['Supplier'] == 'Current China']['Total'].values[0]
+df['Reduction %'] = ((current_footprint - df['Total']) / current_footprint * 100).round(1)
+
+# Annual volume impact
+annual_volume = 50000  # kWh
+df['Annual CO2 Reduction (tons)'] = ((current_footprint - df['Total']) * annual_volume / 1000).round(1)
+
+print("Carbon Footprint Analysis:")
+print(df[['Supplier', 'Total', 'Reduction %', 'Annual CO2 Reduction (tons)']].to_string(index=False))
+
+# EU Battery Regulation compliance check
+eu_threshold = 70  # kg CO2e/kWh
+df['EU Compliant'] = df['Total'] <= eu_threshold
+
+print(f"\nSuppliers meeting EU Battery Regulation threshold (<{eu_threshold} kg CO2e/kWh):")
+print(df[df['EU Compliant']]['Supplier'].tolist())</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stakeholders -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Stakeholder Analysis</h2>
+            </div>
+
+            <div class="stakeholder-grid">
+                <div class="stakeholder-card">
+                    <div class="stakeholder-role">CFO</div>
+                    <div class="stakeholder-concern">7% procurement savings target, cash flow optimization, risk exposure management</div>
+                </div>
+                <div class="stakeholder-card">
+                    <div class="stakeholder-role">VP Operations</div>
+                    <div class="stakeholder-concern">Supply reliability, production continuity, quality consistency, minimal disruptions</div>
+                </div>
+                <div class="stakeholder-card">
+                    <div class="stakeholder-role">Sustainability Manager</div>
+                    <div class="stakeholder-concern">EU Battery Regulation compliance, ESG reporting, decarbonization targets</div>
+                </div>
+                <div class="stakeholder-card">
+                    <div class="stakeholder-role">Product Engineering</div>
+                    <div class="stakeholder-concern">Technical specifications, performance validation, qualification timelines</div>
+                </div>
+                <div class="stakeholder-card">
+                    <div class="stakeholder-role">Quality Assurance</div>
+                    <div class="stakeholder-concern">Supplier audits, defect rate targets (<0.5%), compliance documentation</div>
+                </div>
+                <div class="stakeholder-card">
+                    <div class="stakeholder-role">Customers</div>
+                    <div class="stakeholder-concern">Delivery commitments, product quality, sustainability credentials</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions & Recommendations -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Strategic Actions</h2>
+            </div>
+
+            <div class="card">
+                <h3>Phase 1: Dual-Sourcing Strategy</h3>
+                <p><strong>Primary Supplier (60%):</strong> Korean manufacturer with EU partnership - €141/kWh, 35-day lead time</p>
+                <p><strong>Secondary Supplier (40%):</strong> Renegotiated Chinese supplier - €138/kWh with improved SLAs</p>
+                
+                <div class="visualization">
+                    <h4 class="viz-title">Supplier Mix Optimization</h4>
+                    <div id="supplierMixChart"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Phase 2: Hybrid Pricing Model</h3>
+                <p><strong>Structure:</strong> 70% fixed pricing with quarterly reviews + 30% index-linked to lithium carbonate (±15% collar)</p>
+                <p><strong>Impact:</strong> 62% reduction in price volatility exposure</p>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">pricing_model_simulation.py</span>
+                        <button class="copy-btn" onclick="copyCode('code-pricing')">Copy</button>
+                    </div>
+                    <pre><code id="code-pricing" class="language-python">import numpy as np
+import pandas as pd
+
+# Simulate lithium carbonate price movements
+np.random.seed(42)
+days = 365
+base_price = 145
+volatility = 0.18
+
+# Generate price path using geometric Brownian motion
+returns = np.random.normal(0, volatility/np.sqrt(252), days)
+price_path = base_price * np.exp(np.cumsum(returns))
+
+# Fixed pricing model (current)
+fixed_cost = np.full(days, base_price)
+
+# Hybrid model: 70% fixed + 30% index-linked with collar
+index_component = 0.3 * price_path
+collar_min, collar_max = base_price * 0.85, base_price * 1.15
+index_component = np.clip(index_component, collar_min * 0.3, collar_max * 0.3)
+hybrid_cost = 0.7 * base_price + index_component
+
+# Calculate metrics
+fixed_volatility = np.std(fixed_cost)
+hybrid_volatility = np.std(hybrid_cost)
+volatility_reduction = (1 - hybrid_volatility / fixed_volatility) * 100
+
+print(f"Fixed Model Volatility: €{fixed_volatility:.2f}")
+print(f"Hybrid Model Volatility: €{hybrid_volatility:.2f}")
+print(f"Volatility Reduction: {volatility_reduction:.1f}%")
+
+# Cost scenarios
+scenarios = pd.DataFrame({
+    'Scenario': ['Best Case', 'Base Case', 'Worst Case'],
+    'Fixed Model': [base_price * 0.85, base_price, base_price * 1.35],
+    'Hybrid Model': [
+        0.7 * base_price + 0.3 * base_price * 0.85,
+        base_price,
+        0.7 * base_price + 0.3 * base_price * 1.15
+    ]
+})
+
+scenarios['Savings'] = scenarios['Fixed Model'] - scenarios['Hybrid Model']
+print("\n", scenarios)</code></pre>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Phase 3: Risk Mitigation Framework</h3>
+                <div class="metric-grid">
+                    <div class="metric-box">
+                        <div class="metric-value">5 weeks</div>
+                        <div class="metric-label">Safety Stock (up from 3)</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">Monthly</div>
+                        <div class="metric-label">Supplier Scorecard Reviews</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">96%</div>
+                        <div class="metric-label">Target On-Time Delivery</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">Pre-Qualified Suppliers</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2 class="section-title">Measurable Outcomes</h2>
+            </div>
+
+            <div class="visualization">
+                <h4 class="viz-title">Annual Impact Summary</h4>
+                <div id="outcomeChart"></div>
+            </div>
+
+            <div class="card">
+                <h3>Key Performance Improvements</h3>
+                <div class="metric-grid">
+                    <div class="metric-box">
+                        <div class="metric-value">€312K</div>
+                        <div class="metric-label">Annual Cost Savings (4.2% TCO reduction)</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">96%</div>
+                        <div class="metric-label">On-Time Delivery (up from 87%)</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">60%</div>
+                        <div class="metric-label">Supply Disruption Risk Reduction</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">33%</div>
+                        <div class="metric-label">Carbon Footprint Reduction</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Section -->
+        <div class="download-section">
+            <h3>Download Complete Analysis</h3>
+            <p>Get the full dataset, Python code, and Jupyter notebooks used in this case study</p>
+            <a href="#" class="btn-download" onclick="downloadData(); return false;">Download Data & Code Package</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Supply Chain Analytics Portfolio | Created as a demonstration of procurement analytics capabilities</p>
+        <p style="margin-top: 10px; font-size: 0.85rem;">Case study based on realistic industry scenarios. Data synthesized for portfolio purposes.</p>
+    </footer>
+
+    <script>
+        // Initialize syntax highlighting
+        hljs.highlightAll();
+
+        // Tab switching function
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Copy code function
+        function copyCode(codeId) {
+            const code = document.getElementById(codeId).textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Generate sample data
+        function generatePriceData() {
+            const dates = [];
+            const prices = [];
+            const startDate = new Date('2023-01-01');
+            let price = 145;
+            
+            for (let i = 0; i < 730; i++) {
+                const date = new Date(startDate);
+                date.setDate(date.getDate() + i);
+                dates.push(date.toISOString().split('T')[0]);
+                
+                // Add realistic volatility
+                const drift = -0.0002;
+                const volatility = 0.015;
+                const shock = (Math.random() - 0.5) * volatility;
+                price = price * (1 + drift + shock);
+                prices.push(price);
+            }
+            
+            return { dates, prices };
+        }
+
+        // Price Volatility Chart
+        const priceData = generatePriceData();
+        const priceTrace = {
+            x: priceData.dates,
+            y: priceData.prices,
+            type: 'scatter',
+            mode: 'lines',
+            name: 'Lithium Carbonate Price',
+            line: { color: '#1a4d2e', width: 2 }
+        };
+
+        Plotly.newPlot('priceVolChart', [priceTrace], {
+            margin: { t: 20, b: 40, l: 50, r: 20 },
+            xaxis: { title: 'Date' },
+            yaxis: { title: 'Price (€/kWh)' },
+            height: 400
+        }, {responsive: true});
+
+        // TCO Chart
+        const tcoData = [
+            {
+                x: ['Current China', 'Korean EU', 'Alt EU'],
+                y: [145, 141, 148],
+                name: 'Base Price',
+                type: 'bar',
+                marker: { color: '#1a4d2e' }
+            },
+            {
+                x: ['Current China', 'Korean EU', 'Alt EU'],
+                y: [8, 3, 2],
+                name: 'Logistics',
+                type: 'bar',
+                marker: { color: '#4f8c6f' }
+            },
+            {
+                x: ['Current China', 'Korean EU', 'Alt EU'],
+                y: [3.6, 2.0, 1.2],
+                name: 'Carrying Cost',
+                type: 'bar',
+                marker: { color: '#e8a547' }
+            },
+            {
+                x: ['Current China', 'Korean EU', 'Alt EU'],
+                y: [2.0, 0.5, 0.5],
+                name: 'Risk Premium',
+                type: 'bar',
+                marker: { color: '#6b7c72' }
+            }
+        ];
+
+        Plotly.newPlot('tcoChart', tcoData, {
+            margin: { t: 20, b: 60, l: 50, r: 20 },
+            barmode: 'stack',
+            xaxis: { title: 'Supplier' },
+            yaxis: { title: 'Cost (€/kWh)' },
+            height: 400
+        }, {responsive: true});
+
+        // Supplier Comparison Radar Chart
+        const supplierRadar = {
+            type: 'scatterpolar',
+            r: [92, 95, 85, 88, 85],
+            theta: ['Delivery', 'Quality', 'Cost', 'Sustainability', 'Innovation'],
+            fill: 'toself',
+            name: 'Korean EU',
+            marker: { color: '#1a4d2e' }
+        };
+
+        const currentRadar = {
+            type: 'scatterpolar',
+            r: [72, 78, 88, 45, 65],
+            theta: ['Delivery', 'Quality', 'Cost', 'Sustainability', 'Innovation'],
+            fill: 'toself',
+            name: 'Current China',
+            marker: { color: '#6b7c72' }
+        };
+
+        Plotly.newPlot('supplierChart', [supplierRadar, currentRadar], {
+            polar: {
+                radialaxis: {
+                    visible: true,
+                    range: [0, 100]
+                }
+            },
+            margin: { t: 40, b: 40, l: 60, r: 60 },
+            height: 450
+        }, {responsive: true});
+
+        // Carbon Footprint Chart
+        const carbonTrace = {
+            x: ['Current China', 'Korean EU', 'Alt EU', 'Japanese', 'US Startup'],
+            y: [105, 58, 52, 69, 81],
+            type: 'bar',
+            marker: {
+                color: [105, 58, 52, 69, 81],
+                colorscale: [
+                    [0, '#1a4d2e'],
+                    [1, '#e8a547']
+                ],
+                showscale: false
+            },
+            text: ['105', '58', '52', '69', '81'],
+            textposition: 'outside'
+        };
+
+        Plotly.newPlot('carbonChart', [carbonTrace], {
+            margin: { t: 40, b: 60, l: 50, r: 20 },
+            xaxis: { title: 'Supplier' },
+            yaxis: { title: 'Carbon Footprint (kg CO₂e/kWh)' },
+            shapes: [{
+                type: 'line',
+                x0: -0.5,
+                x1: 4.5,
+                y0: 70,
+                y1: 70,
+                line: {
+                    color: 'red',
+                    width: 2,
+                    dash: 'dash'
+                }
+            }],
+            annotations: [{
+                x: 4,
+                y: 70,
+                text: 'EU Regulation Threshold',
+                showarrow: false,
+                yshift: 10
+            }],
+            height: 400
+        }, {responsive: true});
+
+        // Supplier Mix Pie Chart
+        const mixData = [{
+            values: [60, 40],
+            labels: ['Korean EU (Primary)', 'China (Secondary)'],
+            type: 'pie',
+            marker: {
+                colors: ['#1a4d2e', '#4f8c6f']
+            },
+            textinfo: 'label+percent',
+            textposition: 'inside'
+        }];
+
+        Plotly.newPlot('supplierMixChart', mixData, {
+            margin: { t: 20, b: 20, l: 20, r: 20 },
+            height: 350
+        }, {responsive: true});
+
+        // Outcome Chart
+        const outcomeData = [
+            {
+                x: ['Cost Savings', 'Delivery Performance', 'Risk Reduction', 'Carbon Reduction'],
+                y: [312000, 96, 60, 33],
+                type: 'bar',
+                marker: { color: ['#1a4d2e', '#4f8c6f', '#e8a547', '#1a4d2e'] },
+                text: ['€312K', '96%', '60%', '33%'],
+                textposition: 'outside'
+            }
+        ];
+
+        Plotly.newPlot('outcomeChart', outcomeData, {
+            margin: { t: 40, b: 80, l: 80, r: 20 },
+            xaxis: { title: '' },
+            yaxis: { title: 'Value' },
+            height: 400
+        }, {responsive: true});
+
+        // Download function
+        function downloadData() {
+            alert('In a real implementation, this would download a ZIP file containing:\n\n' +
+                  '• CSV datasets (price data, supplier evaluations, TCO calculations)\n' +
+                  '• Python scripts (GARCH models, TCO analysis, visualization code)\n' +
+                  '• Jupyter notebooks with full analysis\n' +
+                  '• Documentation and README');
+        }
+    </script>
+
+</body>
+</html>
